@@ -1,18 +1,20 @@
 
-
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>map</title>
-        <!-- BootstrapのCSS読み込み -->
-        <link href="/survey/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-        <div>map</div>
-    </head>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4&callback=initMap"></script>
-
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <title>Google Maps API サンプル</title>
+  </head>
+  <body>
+    <input type="text" size="55" id="search" value="近くの公園" />
+    <input type="button" size="55" value="検索" onClick="SearchGo()" />
+    <div id="map_canvas" style="width: 100%; height: 90%;"></div>
+    
+    <div id="map" style="width:600px; height:400px"></div>
+    
+    <script defer type="text/javascript" src="api.js?t=<?php echo time(); ?>">
+    </script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4&callback=initMap"></script> 
+  </body>
 </html>
