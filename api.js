@@ -1,7 +1,14 @@
 //apiキー : AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4
+var walktime = 15;		//散歩時間
+var walkdis;			//散歩距離
+var lat;				//現在地の経度
+var lng;				//現在地の経度
+var latlng;				//検索結果の座標
+var tag = [];			//検索のタグ
 
-var lat;
-var lng;
+
+walkdis = 80*walktime;
+tag = ["cafe","park"];
 
 function initMap() {
 	function success(pos) {
@@ -9,7 +16,7 @@ function initMap() {
 		lng = pos.coords.longitude;
 		var latlng = new google.maps.LatLng(lat, lng); //中心の緯度, 経度
 		var map = new google.maps.Map(document.getElementById('map1'), {
-			zoom: 17,
+			zoom: 15,
 			center: latlng
 		});
 		var marker = new google.maps.Marker({
@@ -43,8 +50,7 @@ var service;
 var infowindow;
 
 function initialize() {
-  var pyrmont = new google.maps.LatLng(-33.8665433,151.1956316);
-alert(lat);
+  var pyrmont = new google.maps.LatLng(lat,lng);
   map = new google.maps.Map(document.getElementById('map2'), {
       center: pyrmont,
       zoom: 15
@@ -52,8 +58,8 @@ alert(lat);
 
   var request = {
     location: pyrmont,
-    radius: '500',
-    type: ['park']
+    radius: walkdis,
+    type: tag
   };
 
   service = new google.maps.places.PlacesService(map);
