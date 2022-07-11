@@ -3,7 +3,8 @@ var walktime = 15;		//散歩時間
 var walkdis;			//散歩距離
 var lat;				//現在地の経度
 var lng;				//現在地の経度
-var latlng;				//検索結果の座標
+var latlng;				//現在地の座標
+var searchresult;		//検索結果の座標
 var tag = [];			//検索のタグ
 
 
@@ -79,13 +80,14 @@ function callback(results, status) {
 // 該当する位置にマーカーを表示
 function createMarker(options) {
 	// 緯度経度を取得
-	var latlng = options.geometry.location;
+	searchresult = options.geometry.location;
 	// 住所を取得
 	var address = options.formatted_address;
 
 	var marker = new google.maps.Marker({
-		position: latlng, //マーカーの位置（必須）
+		position: searchresult, //マーカーの位置（必須）
 		map: map //マーカーを表示する地図
+		
 	});
 }
  
