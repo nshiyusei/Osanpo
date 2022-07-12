@@ -13,7 +13,7 @@ var waypoints = [];			//経由地
 
 
 walkdis = 80*walktime;
-tag = ["cafe","park"];
+tag = ["park"];
 
 const initMap = () => {
 	return new Promise((resolve, reject) => {
@@ -88,7 +88,7 @@ function initialize() {
 			}
 			
 			
-			var rand = Math.floor(Math.random()*results.length);
+			var rand = Math.floor(Math.random()*results.length);		//今はランダムでピックアップ
 			destination = results[rand].geometry.location;
 			// alert(latlng);
 			calcRoute().then(() => {
@@ -141,9 +141,9 @@ function calcRoute(){
 		// ルート検索を実行
 		directionsService.route({
 			origin: originlanlng = new google.maps.LatLng(originlat, originlng),
-			destination: destination,
+			destination: originlanlng,
 			waypoints:waypoints,
-			travelMode: google.maps.TravelMode.DRIVING
+			travelMode: google.maps.TravelMode.WALKING
 		}, function(response, status) {
 			// console.log(response);
 			if (status === google.maps.DirectionsStatus.OK) {
