@@ -141,8 +141,8 @@ function calcRoute(){
 	
 		// ルート検索を実行
 		directionsService.route({
-			origin: originlanlng = new google.maps.LatLng(originlat, originlng),
-			destination: originlanlng,
+			origin: originlatlng = new google.maps.LatLng(originlat, originlng),
+			destination: originlatlng,
 			waypoints:waypoints,
 			travelMode: google.maps.TravelMode.WALKING
 		}, function(response, status) {
