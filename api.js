@@ -80,15 +80,18 @@ var infowindow;
 
 function initialize() {
 	return new Promise((resolve, reject) => {
-		const callback = (results, status) => {
+		const callback = async (results, status) => {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
-					// console.log(results[i].geometry.location);
+					console.log(results[i].geometry.location);
 					createMarker(results[i]);
+					const e1 = await getElevation(new google.maps.LatLng(lat, lng));
+					const e2 = await getElevation(new google.maps.LatLng(results[i].geometry.location.lat(), results[i].geometry.location.lng()));
+					const diff = e1 - e2;
+					alert(diff);
 				}
 			}
-			
-			
+
 			var rand = Math.floor(Math.random()*results.length);	//今はランダムでピックアップ
 			destination = results[rand].geometry.location;
 			
@@ -166,5 +169,33 @@ window.addEventListener('load', async function() {
 		lng = destination.lng();
 		waypoints[i] = { location: new google.maps.LatLng(lat,lng) }
 		await initMap();
+
+		//let e = getElevation(new google.maps.LatLng(lat,lng));
+		//this.alert(e);
 	}
 });
+
+
+function getElevation(ll) {
+	return new Promise((resolve, reject) => {
+		var locations = [ll];
+	
+		// ElevationServiceのコンストラクタ
+		var elevation = new google.maps.ElevationService();
+		// リクエストを発行
+		elevation.getElevationForLocations({
+			locations: locations
+		}, function(results, status) {
+			if (status == google.maps.ElevationStatus.OK) {
+				if (results[0].elevation) {
+			 		// 標高取得
+					var elevation = results[0].elevation;
+					alert(elevation);
+					resolve(elevation);
+				} else {
+					reject()
+				}
+			}
+		});	
+	})
+}
