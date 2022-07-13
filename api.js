@@ -1,5 +1,6 @@
 //apiキー : AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4
 var walkdis;			//散歩距離
+var totaldis;			//経路の距離
 var originlat;			//現在地の緯度
 var originlng;			//現在地の経度
 var lat;				//緯度
@@ -90,7 +91,7 @@ function initialize() {
 			
 			var rand = Math.floor(Math.random()*results.length);	//今はランダムでピックアップ
 			destination = results[rand].geometry.location;
-			// alert(latlng);
+			
 			calcRoute().then(() => {
 				resolve();
 			}).catch(() => {
