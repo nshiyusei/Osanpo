@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-<style>/*
+
         <!--ここは触らない-->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +11,6 @@
         <link href="/survey/css/bootstrap.min.css" rel="stylesheet">
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
-        <div>map</div>
         <!--ここは触らない-->
         
         <!--追記:body,body:after-->
@@ -37,7 +36,7 @@
                 z-index: -1;
             }
         </style>
-*/</style>
+
     </head>
 
     <body>
