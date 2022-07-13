@@ -45,9 +45,9 @@
 
 
         <form method = "POST" action=? style = "text-align: center">
-            <input type = "number" placeholder = "時間を入力してください" name = "osampo_time"  min = "5" value = "60">
+            <input type = "number" placeholder = "時間を入力してください" name = "osampo_time"  min = "5" value = "60" style = "height:3em">
 
-            <input type = "submit" name = "btn_confirm" value = "決定">
+            <input type = "submit" name = "btn_confirm" value = "決定" style = "height:3em">
         </form>
 
         <?php if(empty($_POST['osampo_time'])) : ?>
