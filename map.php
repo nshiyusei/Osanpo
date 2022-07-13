@@ -25,19 +25,21 @@
             お散歩時間を入力してください
         </h2>
 
-        <form method = "POST" action = "map_test.php" style = "text-align: center">
-            <input type = "number" placeholder = "時間を入力してください" name = "osampo_time"  min = "5" value = "25">
+        <form method = "POST" action=? style = "text-align: center">
+            <input type = "number" placeholder = "時間を入力してください" name = "osampo_time"  min = "5" value = "60">
             <input type = "submit" name = "btn_confirm" value = "決定">
         </form>
 
         <?php if(empty($_POST['osampo_time'])) : ?>
             <p style = "text-align: center; color: red">時間が入力されていません！</p>
         <?php endif; ?>
+
+        <script type="text/javascript"> var walktime = '<?php echo $_POST['osampo_time']; ?>';</script>
     
         <div id="map1" style="width:600px; height:400px"></div>
         <div id="map2" style="width:600px; height:400px"></div>
-
-
+        
+        <script initMap></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4&libraries=places"></script>
         <script defer type="text/javascript" src="api.js?t=<?php echo time(); ?>"></script>
         
