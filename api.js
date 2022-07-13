@@ -1,5 +1,4 @@
 //apiキー : AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4
-var walktime = 15;		//散歩時間
 var walkdis;			//散歩距離
 var originlat;			//現在地の緯度
 var originlng;			//現在地の経度
@@ -9,7 +8,7 @@ var latlng;				//現在地の座標
 var results = [];		//検索結果の座標
 var tag = [];			//検索のタグ
 var destination;		//行先
-var waypoints = [];			//経由地
+var waypoints = [];		//経由地
 
 
 walkdis = 80*walktime;
@@ -19,6 +18,7 @@ const initMap = () => {
 	return new Promise((resolve, reject) => {
 		if(lat == undefined || lng == undefined) {
 			const success = (pos) => {
+				//現在地にマーカーを表示
 				lat = pos.coords.latitude;
 				lng = pos.coords.longitude;
 				originlat = lat;
@@ -88,7 +88,7 @@ function initialize() {
 			}
 			
 			
-			var rand = Math.floor(Math.random()*results.length);		//今はランダムでピックアップ
+			var rand = Math.floor(Math.random()*results.length);	//今はランダムでピックアップ
 			destination = results[rand].geometry.location;
 			// alert(latlng);
 			calcRoute().then(() => {
