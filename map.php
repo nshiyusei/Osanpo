@@ -11,7 +11,7 @@
         
         <!--追記:body,body:after-->
         <style>
-            h2 {color: green;}
+            h1 {color: green;}
 
             body{
                 height: 100%;
@@ -24,11 +24,11 @@
                 width: 100%;
                 height: 100%;
                 content: "";
-                background: #AAFF00;
-                background: -moz-linear-gradient(top, #AAFF00 0%, #fff 100%);
-                background: -webkit-linear-gradient(top, #AAFF00 0%, #fff 100%);
+                background: #AAFF66;
+                background: -moz-linear-gradient(top, #AAFF66 0%, #FFFFBF 100%);
+                background: -webkit-linear-gradient(top, #AAFF66 0%, #FFFFBF 100%);
                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr = '#AAFF00', endColorstr = '#000', GradientType = 0);
-                background: linear-gradient(to bottom, #AAFF00 0%, #fff 100%);
+                background: linear-gradient(to bottom, #AAFF66 0%, #FFFFBF 100%);
                 z-index: -1;
             }
         </style>
@@ -36,9 +36,12 @@
     </head>
 
     <body>
-        <h2 style = "text-align:center; font-weight:bold">
+        <br>
+        <h1 style = "text-align:center; font-weight:bold">
             お散歩時間を入力してください
-        </h2>
+        </h1>
+
+        <br>
 
 
         <form method = "POST" action=? style = "text-align: center">
@@ -50,6 +53,8 @@
         <?php if(empty($_POST['osampo_time'])) : ?>
             <p style = "text-align: center; color: red">時間が入力されていません！</p>
         <?php endif; ?>
+
+        <br>
 
 
         
