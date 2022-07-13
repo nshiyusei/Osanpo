@@ -1,7 +1,7 @@
-
 <!DOCTYPE html>
 <html>
     <head>
+<style>/*
         <!--ここは触らない-->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,19 +37,18 @@
                 z-index: -1;
             }
         </style>
-
+*/</style>
     </head>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4&callback=initMap"></script>
 
     <body>
         <h2 style = "text-align:center; font-weight:bold">
             お散歩時間を入力してください
         </h2>
 
-        <br>
 
-        <form method = "POST" action = "map.php" style = "text-align: center">
-            <input type = "number" placeholder = "時間を入力してください" name = "osampo_time"  min = "5" value = "25">
+        <form method = "POST" action=? style = "text-align: center">
+            <input type = "number" placeholder = "時間を入力してください" name = "osampo_time"  min = "5" value = "60">
+
             <input type = "submit" name = "btn_confirm" value = "決定">
         </form>
 
@@ -57,20 +56,21 @@
             <p style = "text-align: center; color: red">時間が入力されていません！</p>
         <?php endif; ?>
 
-        <br>
 
-        <div style = "text-align:center;">
-            <input type="text" size="55" id="search" value="近くの公園" />
-            <input type="button" size="55" value="検索" onClick="SearchGo()" />
-        </div>
-        <div id="map_canvas" style="width: 100%; height: 90%;"></div>
-    
-        <div id="map" style="width:600px; height:400px"></div>
-    
-        <script defer type="text/javascript" src="api.js?t=<?php echo time(); ?>">
-        </script>
-        <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4&callback=initMap"></script> 
+        
 
+        <script type="text/javascript"> var walktime = '<?php echo $_POST['osampo_time']; ?>';</script>
+    
+        <div id="map1" style="width:600px; height:400px"></div>
+        <div id="map2" style="width:600px; height:400px"></div>
+        
+        <script initMap></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRDP_sdN5n8LI44-vl4CAEm4gnlGF4XH4&libraries=places"></script>
+        <script defer type="text/javascript" src="api.js?t=<?php echo time(); ?>"></script>
+        
+
+
+    
     </body>
 
 </html>
