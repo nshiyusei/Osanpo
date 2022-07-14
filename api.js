@@ -83,12 +83,10 @@ function initialize() {
 		const callback = async (results, status) => {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
 				for (var i = 0; i < results.length; i++) {
-					console.log(results[i].geometry.location);
 					createMarker(results[i]);
 					const e1 = await getElevation(new google.maps.LatLng(lat, lng));
 					const e2 = await getElevation(new google.maps.LatLng(results[i].geometry.location.lat(), results[i].geometry.location.lng()));
 					const diff = e1 - e2;
-					alert(diff);
 				}
 			}
 
@@ -190,7 +188,6 @@ function getElevation(ll) {
 				if (results[0].elevation) {
 			 		// 標高取得
 					var elevation = results[0].elevation;
-					alert(elevation);
 					resolve(elevation);
 				} else {
 					reject()
