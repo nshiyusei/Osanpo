@@ -88,7 +88,7 @@ function initialize() {
 					const e1 = await getElevation(new google.maps.LatLng(lat, lng));
 					const e2 = await getElevation(new google.maps.LatLng(results[i].geometry.location.lat(), results[i].geometry.location.lng()));
 					const diff = e1 - e2;
-					alert(diff);
+					//alert(diff);
 				}
 			}
 
@@ -110,12 +110,14 @@ function initialize() {
 	  
 		var request = {
 		  location: pyrmont,
-		  radius: walkdis,
+		  radius: walkdis*0.4,
 		  type: tag
 		};
 		
 		service = new google.maps.places.PlacesService(map);
 		service.nearbySearch(request, callback);
+
+		
 	})
 }
 
@@ -190,7 +192,7 @@ function getElevation(ll) {
 				if (results[0].elevation) {
 			 		// 標高取得
 					var elevation = results[0].elevation;
-					alert(elevation);
+					//alert(elevation);
 					resolve(elevation);
 				} else {
 					reject()
