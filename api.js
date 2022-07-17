@@ -10,6 +10,8 @@ var results = [];		//検索結果の座標
 var tag = [];			//検索のタグ
 var destination;		//行先
 var waypoints = [];		//経由地
+var count;
+var current_walkdis;
 
 
 walkdis = 80*walktime;
@@ -107,12 +109,27 @@ function initialize() {
 			center: pyrmont,
 			zoom: 15
 		  });
-	  
+		
 		var request = {
-		  location: pyrmont,
-		  radius: walkdis*0.4,
-		  type: tag
-		};
+			location: pyrmont,
+			radius: walkdis*0.5,
+			type: tag
+		  };
+		/*
+		if(count==0){
+			var request = {
+				location: pyrmont,
+				radius: walkdis*0.5,
+				type: tag
+			  };
+		}else if(count<=1){
+			var request = {
+				location: pyrmont,
+				radius: current_walkdis,
+				type: tag
+			  };
+		}
+		*/
 		
 		service = new google.maps.places.PlacesService(map);
 		service.nearbySearch(request, callback);
@@ -161,7 +178,35 @@ function calcRoute(){
 		});
 	});
 }
- 
+
+//経路距離測定
+function calcDis(){
+	return new Promise((resolve) => {
+		latlng = new google.maps.LatLng(lat, lng);
+		var directionsService = new google.maps.DirectionsService;
+		var directionsRenderer = new google.maps.DirectionsRenderer;
+		mayTypeId: google.maps.MapTypeId.ROADMAP
+	
+		// ルート検索を実行
+		directionsService.route({
+			origin: originlatlng = new google.maps.LatLng(originlat, originlng),
+			destination: originlatlng,
+			waypoints:waypoints,
+			travelMode: google.maps.TravelMode.WALKING
+		}, function(response, status) {
+			// console.log(response);
+			if (status === google.maps.DirectionsStatus.OK) {
+				// ルート検索の結果を地図上に描画
+				directionsRenderer.setMap(map);
+				directionsRenderer.setDirections(response); 
+				var directionsData = response.routes[0].legs[0];
+				this.alert(directionsData.distance.text)
+			}
+			resolve();
+		});
+	});
+}
+
 
 window.addEventListener('load', async function() {
 	// ページ読み込み完了後、Googleマップを表示
@@ -170,6 +215,8 @@ window.addEventListener('load', async function() {
 		lat = destination.lat();
 		lng = destination.lng();
 		waypoints[i] = { location: new google.maps.LatLng(lat,lng) }
+		calcDis();
+		count+=1;
 		await initMap();
 
 		//let e = getElevation(new google.maps.LatLng(lat,lng));
