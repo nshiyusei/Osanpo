@@ -10,7 +10,7 @@ var results = [];		//検索結果の座標
 var tag = [];			//検索のタグ
 var destination;		//行先
 var waypoints = [];		//経由地
-var count;
+var count = 0;
 var current_walkdis;
 
 
@@ -181,29 +181,24 @@ function calcRoute(){
 
 //経路距離測定
 function calcDis(){
-	return new Promise((resolve) => {
-		latlng = new google.maps.LatLng(lat, lng);
-		var directionsService = new google.maps.DirectionsService;
-		var directionsRenderer = new google.maps.DirectionsRenderer;
-		mayTypeId: google.maps.MapTypeId.ROADMAP
+	latlng = new google.maps.LatLng(lat, lng);
+	var directionsService = new google.maps.DirectionsService;
+	mayTypeId: google.maps.MapTypeId.ROADMAP
+
+	// ルート検索を実行
+	directionsService.route({
+		origin: originlatlng = new google.maps.LatLng(originlat, originlng),
+		destination: originlatlng,
+		waypoints:waypoints,
+		travelMode: google.maps.TravelMode.WALKING
+	}, function(response, status) {
+		// console.log(response);
+		if (status === google.maps.DirectionsStatus.OK) {
+			var directionsData = response.routes[0].legs[0];
+			this.alert(directionsData.distance.text+count);
+
+		}
 	
-		// ルート検索を実行
-		directionsService.route({
-			origin: originlatlng = new google.maps.LatLng(originlat, originlng),
-			destination: originlatlng,
-			waypoints:waypoints,
-			travelMode: google.maps.TravelMode.WALKING
-		}, function(response, status) {
-			// console.log(response);
-			if (status === google.maps.DirectionsStatus.OK) {
-				// ルート検索の結果を地図上に描画
-				directionsRenderer.setMap(map);
-				directionsRenderer.setDirections(response); 
-				var directionsData = response.routes[0].legs[0];
-				this.alert(directionsData.distance.text)
-			}
-			resolve();
-		});
 	});
 }
 
