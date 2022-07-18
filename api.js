@@ -194,11 +194,10 @@ function calcDis(){
 	}, function(response, status) {
 		// console.log(response);
 		if (status === google.maps.DirectionsStatus.OK) {
-			var directionsData = response.routes[0].legs[0];
+			var directionsData = response.routes[0].legs[legs.length];
 			this.alert(directionsData.distance.text+count);
 
 		}
-	
 	});
 }
 
