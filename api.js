@@ -7,9 +7,12 @@ var lat;				//緯度
 var lng;				//経度
 var latlng;				//現在地の座標
 var results = [];		//検索結果の座標
+var rest_r = [];		//検索結果から除外するもの
 var tag = [];			//検索のタグ
 var destination;		//行先
 var waypoints = [];		//経由地
+var count = 0;
+var current_walkdis=0;
 
 
 walkdis = 80*walktime;
@@ -25,10 +28,12 @@ const initMap = () => {
 				originlat = lat;
 				originlng = lng;
 				var latlng = new google.maps.LatLng(lat, lng); //中心の緯度, 経度
+				/*
 				var map = new google.maps.Map(document.getElementById('map1'), {
 					zoom: 15,
 					center: latlng
 				});
+				*/
 				var marker = new google.maps.Marker({
 					position: latlng, //マーカーの位置（必須）
 					map: map //マーカーを表示する地図
@@ -45,10 +50,12 @@ const initMap = () => {
 				lat = 35.6812405;
 				lng = 139.7649361;
 				latlng = new google.maps.LatLng(lat, lng); //東京駅
+				/*
 				var map = new google.maps.Map(document.getElementById('map1'), {
 					zoom: 10,
 					center: latlng
 				});
+				*/
 				initialize().then(()=>{
 					reject();
 				});
@@ -88,12 +95,16 @@ function initialize() {
 					const e1 = await getElevation(new google.maps.LatLng(lat, lng));
 					const e2 = await getElevation(new google.maps.LatLng(results[i].geometry.location.lat(), results[i].geometry.location.lng()));
 					const diff = e1 - e2;
-					alert(diff);
+					if(diff<30){
+						rest_r.push(results[i]);
+					}
+					//alert(diff);
 				}
 			}
+			
 
-			var rand = Math.floor(Math.random()*results.length);	//今はランダムでピックアップ
-			destination = results[rand].geometry.location;
+			var rand = Math.floor(Math.random()*rest_r.length);	//今はランダムでピックアップ
+			destination = rest_r[rand].geometry.location;
 			
 			calcRoute().then(() => {
 				resolve();
@@ -107,15 +118,27 @@ function initialize() {
 			center: pyrmont,
 			zoom: 15
 		  });
-	  
-		var request = {
-		  location: pyrmont,
-		  radius: walkdis,
-		  type: tag
-		};
+		
+		if(count==0){
+			var request = {
+				location: pyrmont,
+				radius: walkdis*0.4,
+				type: tag
+			  };
+		}else if(count>=1){
+			var r=(walkdis-current_walkdis)/2
+			var request = {
+				location: pyrmont,
+				radius: r,
+				type: tag
+			  };
+		}
+		
 		
 		service = new google.maps.places.PlacesService(map);
 		service.nearbySearch(request, callback);
+
+		
 	})
 }
 
@@ -159,15 +182,53 @@ function calcRoute(){
 		});
 	});
 }
- 
+
+//経路距離測定
+function calcDis(){
+	latlng = new google.maps.LatLng(lat, lng);
+	var directionsService = new google.maps.DirectionsService;
+	mayTypeId: google.maps.MapTypeId.ROADMAP
+
+	// ルート検索を実行
+	directionsService.route({
+		origin: originlatlng = new google.maps.LatLng(originlat, originlng),
+		destination: originlatlng,
+		waypoints:waypoints,
+		travelMode: google.maps.TravelMode.WALKING
+	}, function(response, status) {
+		// console.log(response);
+		if (status === google.maps.DirectionsStatus.OK) {
+			var m = 0;
+			for(var i=0; i<response.routes[0].legs.length; i++){
+				m += response.routes[0].legs[i].distance.value; // 距離(m)
+			}
+			current_walkdis=m
+		}
+	});
+}
+
 
 window.addEventListener('load', async function() {
 	// ページ読み込み完了後、Googleマップを表示
 	await initMap();
-	for(let i = 0; i < 2; i++){
+	for(let i = 0; i < 10; i++){
 		lat = destination.lat();
 		lng = destination.lng();
 		waypoints[i] = { location: new google.maps.LatLng(lat,lng) }
+		calcDis();
+		//this.alert(current_walkdis);
+		if(walkdis*0.8<current_walkdis){
+			if(walkdis*1.1<current_walkdis){
+				waypoint=waypoint.pop();
+				break;
+			}else{
+				//this.alert("break");
+				break;
+			}
+		}else{
+			//this.alert("not break");
+		}
+		count+=1;
 		await initMap();
 
 		//let e = getElevation(new google.maps.LatLng(lat,lng));
@@ -190,7 +251,7 @@ function getElevation(ll) {
 				if (results[0].elevation) {
 			 		// 標高取得
 					var elevation = results[0].elevation;
-					alert(elevation);
+					//alert(elevation);
 					resolve(elevation);
 				} else {
 					reject()
