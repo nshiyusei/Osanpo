@@ -7,12 +7,12 @@ var lat;				//緯度
 var lng;				//経度
 var latlng;				//現在地の座標
 var results = [];		//検索結果の座標
-var rest_r = [];		//検索結果から除外するもの
+var rest_r = [];		//検索結果から標高差のある座標を除外した残り
 var tag = [];			//検索のタグ
 var destination;		//行先
 var waypoints = [];		//経由地
-var count = 0;
-var current_walkdis=0;
+var count = 0;			//addEventLisnerのループ回数
+var current_walkdis=0;	//現在のルートの総距離
 
 
 walkdis = 80*walktime;
@@ -103,7 +103,7 @@ function initialize() {
 			}
 			
 
-			var rand = Math.floor(Math.random()*rest_r.length);	//今はランダムでピックアップ
+			var rand = Math.floor(Math.random()*rest_r.length);	//ランダムでピックアップ
 			destination = rest_r[rand].geometry.location;
 			
 			calcRoute().then(() => {
@@ -200,7 +200,7 @@ function calcDis(){
 		if (status === google.maps.DirectionsStatus.OK) {
 			var m = 0;
 			for(var i=0; i<response.routes[0].legs.length; i++){
-				m += response.routes[0].legs[i].distance.value; // 距離(m)
+				m += response.routes[0].legs[i].distance.value; // 距離(m)計算
 			}
 			current_walkdis=m
 		}
@@ -217,9 +217,9 @@ window.addEventListener('load', async function() {
 		waypoints[i] = { location: new google.maps.LatLng(lat,lng) }
 		calcDis();
 		//this.alert(current_walkdis);
-		if(walkdis*0.8<current_walkdis){
+		if(walkdis*0.8<current_walkdis){ //目標の距離の0.8倍を超えたら終了
 			if(walkdis*1.1<current_walkdis){
-				waypoint=waypoint.pop();
+				waypoint=waypoint.pop(); //目標の距離の1.1倍を超えた場合、その原因となった中間地点を削除する
 				break;
 			}else{
 				//this.alert("break");
@@ -231,7 +231,6 @@ window.addEventListener('load', async function() {
 		count+=1;
 		await initMap();
 
-		//let e = getElevation(new google.maps.LatLng(lat,lng));
 		//this.alert(e);
 	}
 });
