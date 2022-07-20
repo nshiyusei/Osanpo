@@ -219,7 +219,7 @@ window.addEventListener('load', async function() {
 		//this.alert(current_walkdis);
 		if(walkdis*0.8<current_walkdis){ //目標の距離の0.8倍を超えたら終了
 			if(walkdis*1.1<current_walkdis){
-				waypoint=waypoint.pop(); //目標の距離の1.1倍を超えた場合、その原因となった中間地点を削除する
+				waypoint=waypoint.pop(); //目標の距離の1.1倍を超えた場合、前に追加した中間地点を1つ削除する
 				break;
 			}else{
 				//this.alert("break");
